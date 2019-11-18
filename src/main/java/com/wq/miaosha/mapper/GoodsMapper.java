@@ -1,6 +1,7 @@
 package com.wq.miaosha.mapper;
 
 import com.wq.miaosha.entity.Goods;
+import com.wq.miaosha.entity.MiaoshaGoods;
 import com.wq.miaosha.vo.GoodsVo;
 
 import java.util.List;
@@ -57,4 +58,6 @@ public interface GoodsMapper {
     List<GoodsVo> listGoodsVo();
 
     GoodsVo getGoodsVoByGoodsId(long goodsId);
+
+    int reduceStock(MiaoshaGoods g);
 }

@@ -8,4 +8,6 @@ public interface GoodsService {
     public List<GoodsVo> listGoodsVo();
 
     public GoodsVo getGoodsVoByGoodsId(long goodsId);
+
+    void reduceStock(GoodsVo goods);
 }

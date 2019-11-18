@@ -2,6 +2,7 @@ package com.wq.miaosha.service.impl;
 
 import java.util.List;
 
+import com.wq.miaosha.entity.MiaoshaGoods;
 import com.wq.miaosha.mapper.GoodsMapper;
 import com.wq.miaosha.service.GoodsService;
 import com.wq.miaosha.vo.GoodsVo;
@@ -23,6 +24,12 @@ public class GoodsServiceImpl implements GoodsService {
 	public GoodsVo getGoodsVoByGoodsId(long goodsId) {
 
 		return goodsMapper.getGoodsVoByGoodsId(goodsId);
+	}
+
+	public void reduceStock(GoodsVo goods) {
+		MiaoshaGoods g = new MiaoshaGoods();
+		g.setGoodsId(goods.getId());
+		goodsMapper.reduceStock(g);
 	}
 }
 

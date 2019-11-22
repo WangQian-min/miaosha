@@ -6,6 +6,7 @@ import com.wq.miaosha.entity.OrderInfo;
 import com.wq.miaosha.entity.User;
 import com.wq.miaosha.mapper.MiaoShaOrderMapper;
 import com.wq.miaosha.mapper.OrderInfoMapper;
+import com.wq.miaosha.redis.OrderKey;
 import com.wq.miaosha.redis.RedisService;
 import com.wq.miaosha.service.MiaoShaOrderService;
 import com.wq.miaosha.vo.GoodsVo;
@@ -28,7 +29,7 @@ public class MiaoShaOrderServiceImpl implements MiaoShaOrderService {
 	RedisService redisService;
 	
 	public MiaoShaOrder getMiaoshaOrderByUserIdGoodsId(long userId, long goodsId) {
-		return miaoShaOrderMapper.getMiaoshaOrderByUserIdGoodsId(userId, goodsId);
+		return redisService.get(OrderKey.getMiaoshaOrderByUidGid, ""+userId+"_"+goodsId, MiaoShaOrder.class);
 
 	}
 
@@ -43,16 +44,18 @@ public class MiaoShaOrderServiceImpl implements MiaoShaOrderService {
 		orderInfo.setGoodsPrice(goods.getMiaoshaPrice());
 		orderInfo.setStatus(0);
 		orderInfo.setUserId(user.getId());
-		long orderId = orderInfoMapper.insert(orderInfo);
+		orderInfoMapper.insert(orderInfo);
+		long orderId = orderInfo.getId();
 		MiaoShaOrder miaoshaOrder = new MiaoShaOrder();
 		miaoshaOrder.setGoodsId(goods.getId());
 		miaoshaOrder.setOrderId(orderId);
 		miaoshaOrder.setUserId(user.getId());
 		miaoShaOrderMapper.insert(miaoshaOrder);
+		redisService.set(OrderKey.getMiaoshaOrderByUidGid, ""+user.getId()+"_"+goods.getId(), miaoshaOrder);
 		return orderInfo;
 	}
-	
 
-
-
+	public OrderInfo getOrderById(long orderId) {
+		return orderInfoMapper.getOrderById(orderId);
+	}
 }

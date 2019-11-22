@@ -16,4 +16,5 @@ import com.wq.miaosha.vo.GoodsVo;
 public interface MiaoShaOrderService {
     public MiaoShaOrder getMiaoshaOrderByUserIdGoodsId(long userId, long goodsId);
     OrderInfo createOrder(User user, GoodsVo goods);
+    OrderInfo getOrderById(long orderId);
 }

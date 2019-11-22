@@ -50,4 +50,6 @@ public interface OrderInfoMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(OrderInfo record);
+
+    OrderInfo getOrderById(long orderId);
 }
